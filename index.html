@@ -9,15 +9,22 @@
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+    <aside>
+        <p>Time Left: <span id= "Timeleft"></span></p>
+        <p>Score: <span id="score"></span></p>
+    </aside>
     <main>
         <h1>Coding Quiz!</h1>
-        <p>
+        <p id="Mainp">
             You have 60 seconds to answer 5 coding questions. 
             Points are awarded for correct answers, and how much time is left on the clock. 
             Be careful! Every wrong answer will result in 5 seconds being taken off your time. 
             Click the Start Button below to begin when you're ready, good luck!
         </p>
-        <button type="button">Start the Quiz!</button>
+        <button type="button" id="startButton">Start the Quiz!</button>
+        <ol id="Order">
+        
+        </ol>
     </main>
     <script src="assets/script.js"></script>
 </body>

@@ -9,18 +9,18 @@ main {
     align-items: center;
     margin: 0 17% 0 17%;
 }
- h1 {
-     font-size: 100px;
-     color:rgb(43, 70, 151);
+h1 {
+    font-size: 100px;
+    color:rgb(43, 70, 151);
 
- }
+}
 
- p{
-     font-size: 45px;
-     color: rgb(50, 52, 54);
- }
+p{
+    font-size: 45px;
+    color: rgb(50, 52, 54);
+}
 
-button {
+#startButton {
     border-radius: 10px;
     background-color: steelblue;
     box-shadow: 
@@ -30,4 +30,38 @@ button {
     width: 500px;
     font-size: 50px;
     border-style: none;
+}
+
+button {
+    border-radius: 10px;
+    background-color: steelblue;
+    height: 100px;
+    width: 500px;
+    font-size: 50px;
+    border-style:solid;
+}
+
+.Q {
+    display: none; /* this needs to be changed by JS */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 17% 0 17%;
+}
+
+ol {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 45px;
+    align-self: flex-start;
+}
+
+.HS {
+    display: none;  /* this needs to be changed by JS */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 17% 0 17%;
 }
