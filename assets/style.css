@@ -65,3 +65,12 @@ ol {
     align-items: center;
     margin: 0 17% 0 17%;
 }
+
+input {
+    height: 45px;
+    width: 500px;
+    border-radius: 5px;
+    border: 0;
+    align-self: center;
+    background-color: rgb(177, 209, 238);
+}

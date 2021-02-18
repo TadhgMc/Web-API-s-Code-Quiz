@@ -23,12 +23,12 @@ var li3 = document.createElement("button");
 
 // need a timer that counts (only?) for each question, not overall time(?)
 startButton.addEventListener("click", function(){
-    Countdown();
-    console.log("clicked")
+    timeInterval;
+    console.log("start click")
     createQuestion1();
 });
 
-// add here for correct/wrong answers, and for loop to make next question or make createQuestions() a "for" loop that makes all questions
+// add here for correct/wrong answers
 
 
 
@@ -74,6 +74,8 @@ function createQuestion1(){
                 Question2();
                 } else {
                 console.log("wrong");
+                Timeleft = Timeleft - 5;
+                timeSpot.textContent = Timeleft;
                 Question2();
             };
         }  else {
@@ -81,7 +83,7 @@ function createQuestion1(){
         }  
     });   
     
-};
+}; //end of question 1
 
 
 
@@ -97,27 +99,29 @@ function Question2 () {
     ol.addEventListener("click", function (event) {
         event.stopPropagation;
         console.log("click 2.0");
-    if (p.textContent == question2.Q) {
+        if (p.textContent == question2.Q) {
 
-        console.log("while");
-        Answer = (event.target);
-        console.log(Answer);
-        console.log(c);
+            console.log("while");
+            Answer = (event.target);
+            console.log(Answer);
+            console.log(c);
 
-        if (Answer == b) {
-            console.log("that's correct");
-            score++;
-            ScoreSpot.textContent = score;
-            Question3();
+            if (Answer == b) {
+                console.log("that's correct");
+                score++;
+                ScoreSpot.textContent = score;
+                Question3();
             } else {
-            console.log("wrong");
-            Question3();
-        };
-    }  else {
+                console.log("wrong");
+                Timeleft = Timeleft - 5;
+                timeSpot.textContent = Timeleft;
+                Question3();
+            };
+        }  else {
         console.log("maybve no work")
-    }  
-});   
-}
+        }  
+    });   
+};//end of question 2
 
 function Question3 () {
     p.textContent = question3.Q;
@@ -143,13 +147,15 @@ function Question3 () {
             Question4();
             } else {
             console.log("wrong");
+            Timeleft = Timeleft - 5;
+            timeSpot.textContent = Timeleft;
             Question4();
         };
-    }  else {
+        }  else {
         console.log("maybve no work")
-    }  
-});   
-}
+        }  
+    });   
+}; //end of question 3
 
 function Question4 () {
     p.textContent = question4.Q;
@@ -175,13 +181,15 @@ function Question4 () {
             Question5();
             } else {
             console.log("wrong");
+            Timeleft = Timeleft - 5;
+            timeSpot.textContent = Timeleft;
             Question5();
         };
-    }  else {
+        } else {
         console.log("maybve no work")
-    }  
-});   
-}
+        }  
+    });   
+}; //end of question 4
 
 function Question5 () {
     p.textContent = question5.Q;
@@ -189,18 +197,67 @@ function Question5 () {
     li1.textContent = question5.A.b;
     li2.textContent = question5.A.c;
     li3.textContent = question5.A.d;
-}
 
+    ol.addEventListener("click", function (event) {
+        event.stopPropagation;
+        console.log("click 2.0");
+        if (p.textContent == question5.Q) {
 
+            console.log("while");
+            Answer = (event.target);
+            console.log(Answer);
+            console.log(c);
 
-function Countdown(){
-    var Timeleft= 60;
+            if (Answer == a) {
+                console.log("that's correct");
+                score++;
+                ScoreSpot.textContent = score;
+                ScorePage();
+            } else {
+                console.log("wrong");
+                Timeleft = Timeleft - 5;
+                timeSpot.textContent = Timeleft;
+                ScorePage();
+            };
+        }  else {
+            console.log("maybve no work"); //remove before final upload
+        };
+    });
+}; //end of question 5
+
+function ScorePage (){ 
+    var scoreTotal = score + Timeleft;
+    console.log(score);
+    console.log(Timeleft);
+    H1.textContent = "Congratulations!";
+    p.textContent = "Your score is " + scoreTotal + "!";
+    clearInterval(timeInterval);
+    li0.remove();
+    li1.remove(); //
+    li2.remove();
+    li3.remove();
+
+    li0 = document.createElement("input");
+    li0.setAttribute("type", "text");
+    li0.setAttribute("placeholder", "Enter your initials here to save your score!");
+    ol.appendChild(li0);
+
+    //need to make a button to save input, and move to High Scores
+    li0.addEventListener("submit", function() {
+        //save to local file here
+        console.log("acknowledged");
+        scoreTotal;
+        scoreInitials = li0.textContent;
+    });
+};
+
+var Timeleft= 60;
 
     var timeInterval = setInterval(function(){
         // console.log("started") remove before final upload
         if (Timeleft > 0){
-            timeSpot.textContent = Timeleft;
             Timeleft--;
+            timeSpot.textContent = Timeleft;
         } else {
             timeSpot.textContent = '0';
             clearInterval(timeInterval);
@@ -209,10 +266,10 @@ function Countdown(){
 
     }, 1000); //end of timeInterval
 
-}//end of Countdown
 
 function displayMessage() {
-window.alert("Times up!")
+    window.alert("Times up!")
+    ScorePage();
 }
 
 
