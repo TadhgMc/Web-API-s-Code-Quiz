@@ -256,7 +256,7 @@ function HighScores () {
     resetBtn.setAttribute("id", "ResetButton");
     resetBtn.addEventListener("click", function(event) {
         localStorage.clear();
-        HighScores();
+        window.alert("All scores have been cleared!");
     });
     main.appendChild(resetBtn);
 }
