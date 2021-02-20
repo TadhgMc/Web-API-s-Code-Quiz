@@ -250,19 +250,7 @@ function HighScores () {
     Rstart.textContent = "Restart Quiz!";
     Rstart.setAttribute("id", "ReStartButton");
     Rstart.addEventListener("click", function(event) {
-        Rstart.removeEventListener("click", event.target);
-        Rstart.remove();
-        resetBtn.remove();
-        for (var i = ol.length; i > 0; i--) {
-            ol[i-1].remove();
-        };
-        H1.textContent = "Coding Quiz!";
-        timeInterval;
-        li0 = document.createElement("button");
-        li1;
-        li2;
-        li3;
-        createQuestion1();
+        location.reload();
     });
     main.appendChild(Rstart);
 
