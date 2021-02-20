@@ -1,8 +1,4 @@
-// log what someone's answers are, as well as high scores
-// make scoring system of some kind, ex. 5 points for correct answer and 1 point for each second left in timer, 5seconds off for wrong answer
-// popup if answer is right or wrong
-// MAYBE MAKE CSS ELEMENTS THEN CALL THEM IN JS? maybe html elemnts, then "for" statement to create elements
-
+// Create variables to refer to the document
 var startButton = document.querySelector("#startButton");
 var timeSpot = document.querySelector("#Timeleft");
 var main = document.querySelector("main");
@@ -12,16 +8,18 @@ var p = document.querySelector("#Mainp");
 var ol = document.querySelector("ol");
 var ScoreSpot = document.querySelector("#score");
 var score = 0;
+
 ScoreSpot.textContent = score;
 timeSpot.textContent = 60;
+
 // variables to creates elements for questions
 var li0 = document.createElement("button");
 var li1 = document.createElement("button");
 var li2 = document.createElement("button");
 var li3 = document.createElement("button");
 
+// Timer
 var Timeleft= 60;
-
 var timeInterval = setInterval(function(){
     if (Timeleft > 0){
         Timeleft--;
@@ -36,7 +34,6 @@ var timeInterval = setInterval(function(){
 
 
 startButton.addEventListener("click", function(){
-    timeInterval;
     console.log("start click")
     createQuestion1();
 });
@@ -57,16 +54,18 @@ function createQuestion1(){
     ol.appendChild(li2);
     ol.appendChild(li3);
 
+    //add id's to buttons to specify which answer is which, used later to determine correct answers
     var a = document.querySelector("#a");
     var b = document.querySelector("#b");
     var c = document.querySelector("#c");
     var d = document.querySelector("#d");
     
+    //adjusting style to show the answer buttons, and hide start button
     document.querySelector("button").setAttribute("style", "display: flex;");
     startButton.setAttribute("style", "display: none;");
 
+    //listen for click on answers, determine if answer is correct or not, adjust score/time accordingly. then move on to next question
     ol.addEventListener("click", function (event) {
-            ol.removeEventListener("click", event.target);  //test
         if (p.textContent == question1.Q) {
             Answer = (event.target);
             if (Answer == c) {
@@ -92,7 +91,6 @@ function Question2 () {
     li3.textContent = question2.A.d;
 
     ol.addEventListener("click", function (event) {
-        ol.removeEventListener("click", event.target); //test
         if (p.textContent == question2.Q) {
             Answer = (event.target);
             if (Answer == b) {
@@ -117,7 +115,6 @@ function Question3 () {
     li3.textContent = question3.A.d;
 
     ol.addEventListener("click", function (event) {
-        ol.removeEventListener("click", event.target);
     if (p.textContent == question3.Q) {
         Answer = (event.target);
         if (Answer == d) {
@@ -142,7 +139,6 @@ function Question4 () {
     li3.textContent = question4.A.d;
 
     ol.addEventListener("click", function (event) {
-        ol.removeEventListener("click", event.target);
     if (p.textContent == question4.Q) {
         Answer = (event.target);
         if (Answer == d) {
@@ -167,7 +163,6 @@ function Question5 () {
     li3.textContent = question5.A.d;
 
     ol.addEventListener("click", function (event) {
-        ol.removeEventListener("click", event.target);
         if (p.textContent == question5.Q) {
             Answer = (event.target);
             if (Answer == a) {
@@ -185,32 +180,36 @@ function Question5 () {
 
 //Begin Score Page
 function ScorePage (){ 
+    //add time and score together to get total score, then display it on screen
     var scoreTotal = score + Timeleft;
-    console.log(score);
-    console.log(Timeleft);
     H1.textContent = "Congratulations!";
     p.textContent = "Your score is " + scoreTotal + "!";
+    //stop timer
     clearInterval(timeInterval);
+
+    //remove answer buttons
     li0.remove();
-    li1.remove(); //
+    li1.remove();
     li2.remove();
     li3.remove();
 
+    //change flex direction for better appearance
     ol.setAttribute("style", "flex-direction: row;");
 
+    //create and append input for initials
     li0 = document.createElement("input");
     li0.setAttribute("type", "text");
     li0.setAttribute("placeholder", "Enter your initials here to save your score!");
     ol.appendChild(li0);
+
+    //create and append submit button
     li1 = document.createElement("button");
     li1.setAttribute("id", "highscore");
     li1.textContent = "Submit Score";
     ol.appendChild(li1);
 
-    //need to make a button to save input, and move to High Scores
+    //listen for submit button to be clicked, then
     li1.addEventListener("click", function(event) {
-        //save to local file here
-        li1.removeEventListener("click", event.target);
         var scoreInitials = li0.value;
         var scoreDetails = {scoreInitials, scoreTotal};
         var AllScores = JSON.parse(localStorage.getItem("Scores")) || [];
@@ -222,7 +221,7 @@ function ScorePage (){
     });
 }; //end Score Page
 
-//Begin Highscores page
+//Create Highscores page
 function HighScores () {
     var AllScores = JSON.parse(localStorage.getItem("Scores")) || [];
     H1.textContent = "High Scores!";
@@ -256,29 +255,24 @@ function HighScores () {
     resetBtn.textContent = "Reset Scores";
     resetBtn.setAttribute("id", "ResetButton");
     resetBtn.addEventListener("click", function(event) {
-        resetBtn.removeEventListener("click", event.target);
         localStorage.clear();
         HighScores();
     });
     main.appendChild(resetBtn);
 }
 
-
-
-
+//Alert for when you run out of time
 function displayMessage() {
     window.alert("Times up!")
     ScorePage();
 }
 
-
-// need a list of questions, with multiple choice answers, can be in objects
 var question1 = {
         Q: "Commonly used data types DO NOT include:",
         A : {
             a: "string",
             b: "boolean",
-            c: "alerts",//
+            c: "alerts", //Correct Answer
             d: "numbers",
         },
     };
@@ -286,7 +280,7 @@ var question2 = {
         Q: "String values must be enclosed within ____ when being assigned to variables.",
         A : {
             a: "commas",
-            b: "quotes",//
+            b: "quotes", //Correct Answer
             c: "parenthesis",
             d: "brackets",
         },
@@ -297,7 +291,7 @@ var question3 = {
             a: "quotes",
             b: "parenthesis",
             c: "brackets",
-            d: "braces {these curly ones!}",//
+            d: "braces {these curly ones!}", //Correct Answer
         },
     };
 var question4 = {
@@ -306,23 +300,15 @@ var question4 = {
             a: "numbers & strings",
             b: "other arrays",
             c: "booleans",
-            d: "(all of the above)",//
+            d: "(all of the above)", //Correct Answer
         },
     };
 var question5 = {
         Q: "A very useful tool during development & debugging for printing content to the debugger is:",
         A : {
-            a: "Javascript <console.log>",//
+            a: "Javascript <console.log>", //Correct Answer
             b: "Terminal/Bash",
             c: "for loops",
             d: "CSS style sheets",
         },
     };
-
-
-// ANSWERS
-console.log(question1.A.c);
-console.log(question2.A.b);
-console.log(question3.A.d);
-console.log(question4.A.d);
-console.log(question5.A.a);
