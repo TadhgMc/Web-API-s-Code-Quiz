@@ -23,6 +23,7 @@ var li3 = document.createElement("button");
 
 // need a timer that counts (only?) for each question, not overall time(?)
 startButton.addEventListener("click", function(){
+    startButton.removeEventListener("click", this);
     timeInterval;
     console.log("start click")
     createQuestion1();
@@ -58,28 +59,18 @@ function createQuestion1(){
     
         
     ol.addEventListener("click", function (event) {
-            event.stopPropagation;
-            console.log("click 2.0");
+            ol.removeEventListener("click", event.target);  //test
         if (p.textContent == question1.Q) {
-
-            console.log("while");
             Answer = (event.target);
-            console.log(Answer);
-            console.log(c);
-
             if (Answer == c) {
-                console.log("that's correct");
                 score++;
                 ScoreSpot.textContent = score;
                 Question2();
                 } else {
-                console.log("wrong");
                 Timeleft = Timeleft - 5;
                 timeSpot.textContent = Timeleft;
                 Question2();
             };
-        }  else {
-            console.log("maybve no work")
         }  
     });   
     
@@ -97,28 +88,18 @@ function Question2 () {
     li3.textContent = question2.A.d;
 
     ol.addEventListener("click", function (event) {
-        event.stopPropagation;
-        console.log("click 2.0");
+        ol.removeEventListener("click", event.target); //test
         if (p.textContent == question2.Q) {
-
-            console.log("while");
             Answer = (event.target);
-            console.log(Answer);
-            console.log(c);
-
             if (Answer == b) {
-                console.log("that's correct");
                 score++;
                 ScoreSpot.textContent = score;
                 Question3();
             } else {
-                console.log("wrong");
                 Timeleft = Timeleft - 5;
                 timeSpot.textContent = Timeleft;
                 Question3();
             };
-        }  else {
-        console.log("maybve no work")
         }  
     });   
 };//end of question 2
@@ -131,29 +112,19 @@ function Question3 () {
     li3.textContent = question3.A.d;
 
     ol.addEventListener("click", function (event) {
-        event.stopPropagation;
-        console.log("click 2.0");
+        ol.removeEventListener("click", event.target);
     if (p.textContent == question3.Q) {
-
-        console.log("while");
         Answer = (event.target);
-        console.log(Answer);
-        console.log(c);
-
         if (Answer == d) {
-            console.log("that's correct");
             score++;
             ScoreSpot.textContent = score;
             Question4();
             } else {
-            console.log("wrong");
             Timeleft = Timeleft - 5;
             timeSpot.textContent = Timeleft;
             Question4();
         };
-        }  else {
-        console.log("maybve no work")
-        }  
+        } 
     });   
 }; //end of question 3
 
@@ -165,29 +136,19 @@ function Question4 () {
     li3.textContent = question4.A.d;
 
     ol.addEventListener("click", function (event) {
-        event.stopPropagation;
-        console.log("click 2.0");
+        ol.removeEventListener("click", event.target);
     if (p.textContent == question4.Q) {
-
-        console.log("while");
         Answer = (event.target);
-        console.log(Answer);
-        console.log(c);
-
         if (Answer == d) {
-            console.log("that's correct");
             score++;
             ScoreSpot.textContent = score;
             Question5();
             } else {
-            console.log("wrong");
             Timeleft = Timeleft - 5;
             timeSpot.textContent = Timeleft;
             Question5();
         };
-        } else {
-        console.log("maybve no work")
-        }  
+        } 
     });   
 }; //end of question 4
 
@@ -199,29 +160,19 @@ function Question5 () {
     li3.textContent = question5.A.d;
 
     ol.addEventListener("click", function (event) {
-        event.stopPropagation;
-        console.log("click 2.0");
+        ol.removeEventListener("click", event.target);
         if (p.textContent == question5.Q) {
-
-            console.log("while");
             Answer = (event.target);
-            console.log(Answer);
-            console.log(c);
-
             if (Answer == a) {
-                console.log("that's correct");
                 score++;
                 ScoreSpot.textContent = score;
                 ScorePage();
             } else {
-                console.log("wrong");
                 Timeleft = Timeleft - 5;
                 timeSpot.textContent = Timeleft;
                 ScorePage();
             };
-        }  else {
-            console.log("maybve no work"); //remove before final upload
-        };
+        }  
     });
 }; //end of question 5
 
@@ -237,19 +188,86 @@ function ScorePage (){
     li2.remove();
     li3.remove();
 
+    ol.setAttribute("style", "flex-direction: row;");
+
     li0 = document.createElement("input");
     li0.setAttribute("type", "text");
     li0.setAttribute("placeholder", "Enter your initials here to save your score!");
     ol.appendChild(li0);
+    li1 = document.createElement("button");
+    li1.setAttribute("id", "highscore");
+    li1.textContent = "Submit Score";
+    ol.appendChild(li1);
 
     //need to make a button to save input, and move to High Scores
-    li0.addEventListener("submit", function() {
+    li1.addEventListener("click", function(event) {
         //save to local file here
-        console.log("acknowledged");
-        scoreTotal;
-        scoreInitials = li0.textContent;
+        li1.removeEventListener("click", event.target);
+        var scoreInitials = li0.value;
+        var scoreDetails = {scoreInitials, scoreTotal};
+        var AllScores = JSON.parse(localStorage.getItem("Scores")) || [];
+        AllScores.push(scoreDetails);
+        AllScores.sort((a, b) => b.scoreTotal - a.scoreTotal); // For descending sort
+        localStorage.setItem("Scores", JSON.stringify(AllScores));
+        console.log(scoreTotal + " " + scoreInitials);
+        HighScores();
     });
 };
+
+//reset button will use <localStorage.clear()>
+function HighScores () {
+    var AllScores = JSON.parse(localStorage.getItem("Scores")) || [];
+    H1.textContent = "High Scores!";
+    p.textContent = "Here are the top 10 scores!";
+    li0.remove();
+    li1.remove();
+    // var liEl = document.createElement("li");
+    ol.setAttribute("style", "flex-direction: column;");
+    console.log(AllScores.length);
+
+    for (var i=0; i < AllScores.length; i++ ) {
+        if (i > 9){
+            break;
+        };
+        var liEl = document.createElement("li");
+        liEl.textContent = AllScores[i].scoreInitials + ": " + AllScores[i].scoreTotal;
+        ol.appendChild(liEl);
+    };
+
+    // Reset Button
+    var resetBtn = document.createElement("button");
+    resetBtn.textContent = "Reset Scores";
+    resetBtn.setAttribute("id", "ResetButton");
+    resetBtn.addEventListener("click", function(event) {
+        resetBtn.removeEventListener("click", event.target);
+        localStorage.clear();
+        HighScores();
+    });
+    main.appendChild(resetBtn);
+
+    // Restart quiz button
+    var Rstart = document.createElement("button");
+    Rstart.textContent = "Restart Quiz!";
+    Rstart.setAttribute("id", "ReStartButton");
+    Rstart.addEventListener("click", function(event) {
+        Rstart.removeEventListener("click", event.target);
+        Rstart.remove();
+        resetBtn.remove();
+        for (var i = ol.length; i > 0; i--) {
+            ol[i-1].remove();
+        };
+        H1.textContent = "Coding Quiz!";
+        timeInterval;
+        li0 = document.createElement("button");
+        li1;
+        li2;
+        li3;
+        createQuestion1();
+    });
+    main.appendChild(Rstart);
+
+    
+}
 
 var Timeleft= 60;
 
