@@ -20,19 +20,28 @@ var li1 = document.createElement("button");
 var li2 = document.createElement("button");
 var li3 = document.createElement("button");
 
+var Timeleft= 60;
 
-// need a timer that counts (only?) for each question, not overall time(?)
+var timeInterval = setInterval(function(){
+    if (Timeleft > 0){
+        Timeleft--;
+        timeSpot.textContent = Timeleft;
+    } else {
+        timeSpot.textContent = '0';
+        clearInterval(timeInterval);
+        displayMessage()
+    }
+
+}, 1000); //end of timeInterval
+
+
 startButton.addEventListener("click", function(){
-    startButton.removeEventListener("click", this);
     timeInterval;
     console.log("start click")
     createQuestion1();
 });
 
-// add here for correct/wrong answers
-
-
-
+//Begin Question 1
 function createQuestion1(){
     p.textContent = question1.Q;
     li0.textContent = question1.A.a;
@@ -56,8 +65,6 @@ function createQuestion1(){
     document.querySelector("button").setAttribute("style", "display: flex;");
     startButton.setAttribute("style", "display: none;");
 
-    
-        
     ol.addEventListener("click", function (event) {
             ol.removeEventListener("click", event.target);  //test
         if (p.textContent == question1.Q) {
@@ -76,10 +83,7 @@ function createQuestion1(){
     
 }; //end of question 1
 
-
-
-
-
+//Begin Question 2
 function Question2 () {
     p.textContent = question2.Q;
     li0.textContent = question2.A.a;
@@ -104,6 +108,7 @@ function Question2 () {
     });   
 };//end of question 2
 
+//Begin Question 3
 function Question3 () {
     p.textContent = question3.Q;
     li0.textContent = question3.A.a;
@@ -128,6 +133,7 @@ function Question3 () {
     });   
 }; //end of question 3
 
+//Begin Question 4
 function Question4 () {
     p.textContent = question4.Q;
     li0.textContent = question4.A.a;
@@ -152,6 +158,7 @@ function Question4 () {
     });   
 }; //end of question 4
 
+//Begin Question 5
 function Question5 () {
     p.textContent = question5.Q;
     li0.textContent = question5.A.a;
@@ -176,6 +183,7 @@ function Question5 () {
     });
 }; //end of question 5
 
+//Begin Score Page
 function ScorePage (){ 
     var scoreTotal = score + Timeleft;
     console.log(score);
@@ -212,19 +220,19 @@ function ScorePage (){
         console.log(scoreTotal + " " + scoreInitials);
         HighScores();
     });
-};
+}; //end Score Page
 
-//reset button will use <localStorage.clear()>
+//Begin Highscores page
 function HighScores () {
     var AllScores = JSON.parse(localStorage.getItem("Scores")) || [];
     H1.textContent = "High Scores!";
     p.textContent = "Here are the top 10 scores!";
     li0.remove();
     li1.remove();
-    // var liEl = document.createElement("li");
     ol.setAttribute("style", "flex-direction: column;");
     console.log(AllScores.length);
 
+    // for loop to create list of scores
     for (var i=0; i < AllScores.length; i++ ) {
         if (i > 9){
             break;
@@ -233,7 +241,16 @@ function HighScores () {
         liEl.textContent = AllScores[i].scoreInitials + ": " + AllScores[i].scoreTotal;
         ol.appendChild(liEl);
     };
-
+    
+    // Restart quiz button
+    var Rstart = document.createElement("button");
+    Rstart.textContent = "Restart Quiz!";
+    Rstart.setAttribute("id", "ReStartButton");
+    Rstart.addEventListener("click", function(event) {
+        location.reload();
+    });
+    main.appendChild(Rstart);
+    
     // Reset Button
     var resetBtn = document.createElement("button");
     resetBtn.textContent = "Reset Scores";
@@ -244,33 +261,9 @@ function HighScores () {
         HighScores();
     });
     main.appendChild(resetBtn);
-
-    // Restart quiz button
-    var Rstart = document.createElement("button");
-    Rstart.textContent = "Restart Quiz!";
-    Rstart.setAttribute("id", "ReStartButton");
-    Rstart.addEventListener("click", function(event) {
-        location.reload();
-    });
-    main.appendChild(Rstart);
-
-    
 }
 
-var Timeleft= 60;
 
-    var timeInterval = setInterval(function(){
-        // console.log("started") remove before final upload
-        if (Timeleft > 0){
-            Timeleft--;
-            timeSpot.textContent = Timeleft;
-        } else {
-            timeSpot.textContent = '0';
-            clearInterval(timeInterval);
-            displayMessage()
-        }
-
-    }, 1000); //end of timeInterval
 
 
 function displayMessage() {
